@@ -66,10 +66,23 @@ impl IFileType for Mkv {
         "mkv"
     }
     fn is_match(buf: &[u8]) -> bool {
-        let contains_ebml_element = buf.starts_with(b"\x1A\x45\xDF\xA3");
-        let contains_doctype_element = buf.contains(b"\x42\x82\x88matroska");
+        // let contains_ebml_element = buf.starts_with(b"\x1A\x45\xDF\xA3");
+        let contains_ebml_element = buf.starts_with(&[0x1A, 0x45, 0xDF, 0xA3]);
+        // let contains_doctype_element = buf.contains(b"\x42\x82\x88matroska".as_slice());
+        let contains_doctype_element = is_some_format(buf, b"\x42\x82\x88matroska");
         contains_ebml_element && contains_doctype_element
     }
+}
+
+fn is_some_format(buf: &[u8], format: &[u8]) -> bool {
+    if buf.len() >= format.len() {
+        for chunk in buf.chunks(format.len()) {
+            if chunk == format {
+                return true;
+            }
+        }
+    }
+    false
 }
 
 pub struct Webm;
@@ -83,8 +96,9 @@ impl IFileType for Webm {
         "webm"
     }
     fn is_match(buf: &[u8]) -> bool {
-        let contains_ebml_element = buf.starts_with(b"\x1A\x45\xDF\xA3");
-        let contains_doctype_element = buf.contains(b"\x42\x82\x84webm");
+        let contains_ebml_element = buf.starts_with(&[0x1A, 0x45, 0xDF, 0xA3]);
+        // let contains_doctype_element = buf.contains(b"\x42\x82\x84webm");
+        let contains_doctype_element = is_some_format(buf, b"\x42\x82\x84webm");
         contains_ebml_element && contains_doctype_element
     }
 }

@@ -14,17 +14,13 @@ impl IsoBmff {
         if buf.len() < 17 {
             return ("".to_owned(), 0, vec![]);
         }
-        let ftype_len: usize = u32::from_be_bytes(buf[0..4].try_into().unwrap()) as usize;
+        // let ftype_len: usize = u32::from_be_bytes(buf[0..4].try_into().unwrap()) as usize;
         let major_brand: String = String::from_utf8(buf[8..12].into()).unwrap();
         let minor_brand: usize = usize::from_be_bytes(buf[12..16].try_into().unwrap());
-        let mut compatible_brands = vec![];
-        let mut i = 16usize;
-        while i < ftype_len {
-            if buf.len() >= (i + 4) {
-                compatible_brands.push(String::from_utf8(buf[i..i + 4].into()).unwrap());
-            }
-            i += 4;
-        }
+        let compatible_brands = buf[16..]
+            .chunks(4)
+            .map(|chunk| String::from_utf8(chunk.into()).unwrap())
+            .collect::<Vec<_>>();
         (major_brand, minor_brand, compatible_brands)
     }
 }
