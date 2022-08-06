@@ -1,0 +1,20 @@
+[package]
+name = "filetype-rs"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[features]
+default = ["image", "av"]
+all = ["application", "archive", "av", "font", "image"]
+application = []
+av = ["audio", "video"]
+archive = []
+video = []
+audio = []
+font = []
+image = []
+
+
+[dependencies]
