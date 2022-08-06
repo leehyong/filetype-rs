@@ -1,20 +1,21 @@
 use super::isobmff::IsoBmff;
 use super::IFileType;
 
+#[derive(Clone, Copy)]
 pub struct Mp4;
 impl Mp4 {
     pub const MP4_BRANDS: [&'static str; 3] = ["mp41", "mp42", "isom"];
 }
 impl IFileType for Mp4 {
     #[inline]
-    fn mime() -> &'static str {
+    fn mime(&self) -> &'static str {
         "video/mp4"
     }
     #[inline]
-    fn extension() -> &'static str {
+    fn extension(&self) -> &'static str {
         "mp4"
     }
-    fn is_match(buf: &[u8]) -> bool {
+    fn is_match(&self, buf: &[u8]) -> bool {
         if !IsoBmff::is_isobmff(buf) {
             return false;
         }
@@ -29,17 +30,18 @@ impl IFileType for Mp4 {
     }
 }
 
+#[derive(Clone, Copy)]
 pub struct M4v;
 impl IFileType for M4v {
     #[inline]
-    fn mime() -> &'static str {
+    fn mime(&self) -> &'static str {
         "video/x-m4v"
     }
     #[inline]
-    fn extension() -> &'static str {
+    fn extension(&self) -> &'static str {
         "m4v"
     }
-    fn is_match(buf: &[u8]) -> bool {
+    fn is_match(&self, buf: &[u8]) -> bool {
         buf.len() > 10
             && buf[0] == 0x0
             && buf[1] == 0x0
@@ -55,17 +57,18 @@ impl IFileType for M4v {
     }
 }
 
+#[derive(Clone, Copy)]
 pub struct Mkv;
 impl IFileType for Mkv {
     #[inline]
-    fn mime() -> &'static str {
+    fn mime(&self) -> &'static str {
         "video/x-matroska"
     }
     #[inline]
-    fn extension() -> &'static str {
+    fn extension(&self) -> &'static str {
         "mkv"
     }
-    fn is_match(buf: &[u8]) -> bool {
+    fn is_match(&self, buf: &[u8]) -> bool {
         // let contains_ebml_element = buf.starts_with(b"\x1A\x45\xDF\xA3");
         let contains_ebml_element = buf.starts_with(&[0x1A, 0x45, 0xDF, 0xA3]);
         // let contains_doctype_element = buf.contains(b"\x42\x82\x88matroska".as_slice());
@@ -85,17 +88,18 @@ fn is_some_format(buf: &[u8], format: &[u8]) -> bool {
     false
 }
 
+#[derive(Clone, Copy)]
 pub struct Webm;
 impl IFileType for Webm {
     #[inline]
-    fn mime() -> &'static str {
+    fn mime(&self) -> &'static str {
         "video/webm"
     }
     #[inline]
-    fn extension() -> &'static str {
+    fn extension(&self) -> &'static str {
         "webm"
     }
-    fn is_match(buf: &[u8]) -> bool {
+    fn is_match(&self, buf: &[u8]) -> bool {
         let contains_ebml_element = buf.starts_with(&[0x1A, 0x45, 0xDF, 0xA3]);
         // let contains_doctype_element = buf.contains(b"\x42\x82\x84webm");
         let contains_doctype_element = is_some_format(buf, b"\x42\x82\x84webm");
@@ -103,18 +107,19 @@ impl IFileType for Webm {
     }
 }
 
+#[derive(Clone, Copy)]
 pub struct Mov;
 impl IFileType for Mov {
     #[inline]
-    fn mime() -> &'static str {
+    fn mime(&self) -> &'static str {
         "video/quicktime"
     }
     #[inline]
-    fn extension() -> &'static str {
+    fn extension(&self) -> &'static str {
         "mov"
     }
 
-    fn is_match(buf: &[u8]) -> bool {
+    fn is_match(&self, buf: &[u8]) -> bool {
         if !IsoBmff::is_isobmff(buf) {
             return false;
         }
@@ -123,17 +128,18 @@ impl IFileType for Mov {
     }
 }
 
+#[derive(Clone, Copy)]
 pub struct Avi;
 impl IFileType for Avi {
     #[inline]
-    fn mime() -> &'static str {
+    fn mime(&self) -> &'static str {
         "video/x-msvideo"
     }
     #[inline]
-    fn extension() -> &'static str {
+    fn extension(&self) -> &'static str {
         "avi"
     }
-    fn is_match(buf: &[u8]) -> bool {
+    fn is_match(&self, buf: &[u8]) -> bool {
         buf.len() > 11
             && buf[0] == 0x52
             && buf[1] == 0x49
@@ -146,18 +152,19 @@ impl IFileType for Avi {
     }
 }
 
+#[derive(Clone, Copy)]
 pub struct Wmv;
 impl IFileType for Wmv {
     #[inline]
-    fn mime() -> &'static str {
+    fn mime(&self) -> &'static str {
         "video/x-ms-wmv"
     }
     #[inline]
-    fn extension() -> &'static str {
+    fn extension(&self) -> &'static str {
         "wmv"
     }
 
-    fn is_match(buf: &[u8]) -> bool {
+    fn is_match(&self, buf: &[u8]) -> bool {
         buf.len() > 9
             && buf[0] == 0x30
             && buf[1] == 0x26
@@ -172,33 +179,35 @@ impl IFileType for Wmv {
     }
 }
 
+#[derive(Clone, Copy)]
 pub struct Flv;
 impl IFileType for Flv {
     #[inline]
-    fn mime() -> &'static str {
+    fn mime(&self) -> &'static str {
         "video/x-flv"
     }
     #[inline]
-    fn extension() -> &'static str {
+    fn extension(&self) -> &'static str {
         "flv"
     }
-    fn is_match(buf: &[u8]) -> bool {
+    fn is_match(&self, buf: &[u8]) -> bool {
         buf.len() > 3 && buf[0] == 0x46 && buf[1] == 0x4C && buf[2] == 0x56 && buf[3] == 0x01
     }
 }
 
+#[derive(Clone, Copy)]
 pub struct Mpeg;
 impl IFileType for Mpeg {
     #[inline]
-    fn mime() -> &'static str {
+    fn mime(&self) -> &'static str {
         "video/mpeg"
     }
     #[inline]
-    fn extension() -> &'static str {
+    fn extension(&self) -> &'static str {
         "mpg"
     }
 
-    fn is_match(buf: &[u8]) -> bool {
+    fn is_match(&self, buf: &[u8]) -> bool {
         buf.len() > 3
             && buf[0] == 0x0
             && buf[1] == 0x0
@@ -208,17 +217,18 @@ impl IFileType for Mpeg {
     }
 }
 
+#[derive(Clone, Copy)]
 pub struct M3gp;
 impl IFileType for M3gp {
     #[inline]
-    fn mime() -> &'static str {
+    fn mime(&self) -> &'static str {
         "video/3gpp"
     }
     #[inline]
-    fn extension() -> &'static str {
+    fn extension(&self) -> &'static str {
         "3gp"
     }
-    fn is_match(buf: &[u8]) -> bool {
+    fn is_match(&self, buf: &[u8]) -> bool {
         buf.len() > 6 && &buf[..7] == [0x66, 0x74, 0x79, 0x70, 0x33, 0x67, 0x70]
     }
 }

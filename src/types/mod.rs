@@ -1,39 +1,41 @@
+#[cfg(feature = "lazystatic")]
+#[macro_use]
+extern crate lazy_static;
+
 #[cfg(feature = "application")]
-mod application;
+pub mod application;
 #[cfg(feature = "archive")]
-mod archive;
+pub mod archive;
 #[cfg(feature = "audio")]
-mod audio;
+pub mod audio;
 #[cfg(feature = "font")]
-mod font;
+pub mod font;
 #[cfg(feature = "image")]
-mod image;
-mod isobmff;
+pub mod image;
+pub mod isobmff;
 #[cfg(feature = "video")]
-mod video;
+pub mod video;
+
+#[cfg(feature = "staticinit")]
+mod sinit;
+#[cfg(feature = "staticinit")]
+pub use sinit::*;
+
+// #[cfg(feature = "lazystatic")]
+mod linit;
+// #[cfg(feature = "lazystatic")]
+pub use linit::*;
+
 pub trait IFileType {
-    fn mime() -> &'static str;
-    fn extension() -> &'static str;
-    fn is_mime(_mime: &str) -> bool {
-        Self::mime() == _mime
+    fn mime(&self) -> &'static str;
+    fn extension(&self) -> &'static str;
+    fn is_mime(&self, _mime: &str) -> bool {
+        self.mime() == _mime
     }
-    fn is_extension(_extension: &str) -> bool {
-        Self::extension() == _extension
+    fn is_extension(&self, _extension: &str) -> bool {
+        self.extension() == _extension
     }
-    fn is_match(buf: &[u8]) -> bool {
+    fn is_match(&self, buf: &[u8]) -> bool {
         false
     }
 }
-
-#[cfg(feature = "application")]
-pub use application::*;
-#[cfg(feature = "archive")]
-pub use archive::*;
-#[cfg(feature = "audio")]
-pub use audio::*;
-#[cfg(feature = "font")]
-pub use font::*;
-#[cfg(feature = "image")]
-pub use image::*;
-#[cfg(feature = "video")]
-pub use video::*;

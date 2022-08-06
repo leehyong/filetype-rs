@@ -1,19 +1,20 @@
 use super::IFileType;
 
+#[derive(Clone, Copy)]
 pub struct Woff;
 
 impl IFileType for Woff {
     #[inline]
-    fn mime() -> &'static str {
+    fn mime(&self) -> &'static str {
         "application/font-woff"
     }
 
     #[inline]
-    fn extension() -> &'static str {
+    fn extension(&self) -> &'static str {
         "woff"
     }
 
-    fn is_match(buf: &[u8]) -> bool {
+    fn is_match(&self, buf: &[u8]) -> bool {
         buf.len() > 7
             && buf[0] == 0x77
             && buf[1] == 0x4F
@@ -25,18 +26,19 @@ impl IFileType for Woff {
     }
 }
 
+#[derive(Clone, Copy)]
 pub struct Woff2;
 impl IFileType for Woff2 {
     #[inline]
-    fn mime() -> &'static str {
+    fn mime(&self) -> &'static str {
         "application/font-woff"
     }
     #[inline]
-    fn extension() -> &'static str {
+    fn extension(&self) -> &'static str {
         "woff2"
     }
 
-    fn is_match(buf: &[u8]) -> bool {
+    fn is_match(&self, buf: &[u8]) -> bool {
         buf.len() > 7
             && buf[0] == 0x77
             && buf[1] == 0x4F
@@ -48,19 +50,20 @@ impl IFileType for Woff2 {
     }
 }
 
+#[derive(Clone, Copy)]
 pub struct Ttf;
 impl IFileType for Ttf {
     #[inline]
-    fn mime() -> &'static str {
+    fn mime(&self) -> &'static str {
         "application/font-sfnt"
     }
 
     #[inline]
-    fn extension() -> &'static str {
+    fn extension(&self) -> &'static str {
         "ttf"
     }
 
-    fn is_match(buf: &[u8]) -> bool {
+    fn is_match(&self, buf: &[u8]) -> bool {
         buf.len() > 4
             && buf[0] == 0x00
             && buf[1] == 0x01
@@ -70,17 +73,18 @@ impl IFileType for Ttf {
     }
 }
 
+#[derive(Clone, Copy)]
 pub struct Otf;
 impl IFileType for Otf {
     #[inline]
-    fn mime() -> &'static str {
+    fn mime(&self) -> &'static str {
         "application/font-sfnt"
     }
     #[inline]
-    fn extension() -> &'static str {
+    fn extension(&self) -> &'static str {
         "otf"
     }
-    fn is_match(buf: &[u8]) -> bool {
+    fn is_match(&self, buf: &[u8]) -> bool {
         buf.len() > 4
             && buf[0] == 0x00
             && buf[1] == 0x01
