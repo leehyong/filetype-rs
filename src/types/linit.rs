@@ -3,7 +3,7 @@
 use super::*;
 use std::ptr;
 lazy_static! {
-    pub static ref IMAGE: Vec<Box<dyn IFileType + Send + Sync>> = vec![
+    pub static ref IMAGE: Vec<DynIFileType> = vec![
         Box::new(image::Dwg),
         Box::new(image::Xcf),
         Box::new(image::Jpeg),
@@ -20,7 +20,7 @@ lazy_static! {
         Box::new(image::Heic),
         Box::new(image::Dcm),
     ];
-    pub static ref VIDEO: Vec<Box<dyn IFileType + Send + Sync>> = vec![
+    pub static ref VIDEO: Vec<DynIFileType> = vec![
         Box::new(video::M3gp),
         Box::new(video::Mp4),
         Box::new(video::M4v),
@@ -32,7 +32,7 @@ lazy_static! {
         Box::new(video::Webm),
         Box::new(video::Flv),
     ];
-    pub static ref AUDIO: Vec<Box<dyn IFileType + Send + Sync>> = vec![
+    pub static ref AUDIO: Vec<DynIFileType> = vec![
         Box::new(audio::Aac),
         Box::new(audio::Midi),
         Box::new(audio::Mp3),
@@ -43,13 +43,13 @@ lazy_static! {
         Box::new(audio::Amr),
         Box::new(audio::Aiff),
     ];
-    pub static ref FONT: Vec<Box<dyn IFileType + Send + Sync>> = vec![
+    pub static ref FONT: Vec<DynIFileType> = vec![
         Box::new(font::Woff),
         Box::new(font::Woff2),
         Box::new(font::Ttf),
         Box::new(font::Otf),
     ];
-    pub static ref ARCHIVE: Vec<Box<dyn IFileType + Send + Sync>> = vec![
+    pub static ref ARCHIVE: Vec<DynIFileType> = vec![
         Box::new(archive::Br),
         Box::new(archive::Rpm),
         Box::new(archive::Dcm),
@@ -80,10 +80,9 @@ lazy_static! {
         Box::new(archive::Lz4),
         Box::new(archive::Zstd),
     ];
-    pub static ref APPLICATION: Vec<Box<dyn IFileType + Send + Sync>> =
-        vec![Box::new(application::Wasm)];
-    pub static ref TYPES: Vec<Box<dyn IFileType + Send + Sync>> = {
-        let mut ret: Vec<Box<dyn IFileType + Send + Sync>> = vec![];
+    pub static ref APPLICATION: Vec<DynIFileType> = vec![Box::new(application::Wasm)];
+    pub static ref TYPES: Vec<DynIFileType> = {
+        let mut ret: Vec<DynIFileType> = vec![];
 
         #[cfg(feature = "image")]
         {

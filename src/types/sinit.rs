@@ -6,7 +6,7 @@ use std::ptr;
 
 #[cfg(feature = "image")]
 #[dynamic]
-pub static IMAGE: Vec<Box<dyn IFileType + Send + Sync>> = vec![
+pub static IMAGE: Vec<DynIFileType> = vec![
     Box::new(image::Dwg),
     Box::new(image::Xcf),
     Box::new(image::Jpeg),
@@ -26,7 +26,7 @@ pub static IMAGE: Vec<Box<dyn IFileType + Send + Sync>> = vec![
 
 #[cfg(feature = "video")]
 #[dynamic]
-pub static VIDEO: Vec<Box<dyn IFileType + Send + Sync>> = vec![
+pub static VIDEO: Vec<DynIFileType> = vec![
     Box::new(video::M3gp),
     Box::new(video::Mp4),
     Box::new(video::M4v),
@@ -41,7 +41,7 @@ pub static VIDEO: Vec<Box<dyn IFileType + Send + Sync>> = vec![
 
 #[cfg(feature = "audio")]
 #[dynamic]
-pub static AUDIO: Vec<Box<dyn IFileType + Send + Sync>> = vec![
+pub static AUDIO: Vec<DynIFileType> = vec![
     Box::new(audio::Aac),
     Box::new(audio::Midi),
     Box::new(audio::Mp3),
@@ -52,9 +52,10 @@ pub static AUDIO: Vec<Box<dyn IFileType + Send + Sync>> = vec![
     Box::new(audio::Amr),
     Box::new(audio::Aiff),
 ];
+
 #[cfg(feature = "font")]
 #[dynamic]
-pub static FONT: Vec<Box<dyn IFileType + Send + Sync>> = vec![
+pub static FONT: Vec<DynIFileType> = vec![
     Box::new(font::Woff),
     Box::new(font::Woff2),
     Box::new(font::Ttf),
@@ -63,7 +64,7 @@ pub static FONT: Vec<Box<dyn IFileType + Send + Sync>> = vec![
 
 #[cfg(feature = "archive")]
 #[dynamic]
-pub static ARCHIVE: Vec<Box<dyn IFileType + Send + Sync>> = vec![
+pub static ARCHIVE: Vec<DynIFileType> = vec![
     Box::new(archive::Br),
     Box::new(archive::Rpm),
     Box::new(archive::Dcm),
@@ -97,12 +98,11 @@ pub static ARCHIVE: Vec<Box<dyn IFileType + Send + Sync>> = vec![
 
 #[cfg(feature = "application")]
 #[dynamic]
-pub static APPLICATION: Vec<Box<dyn IFileType + Send + Sync>> =
-    vec![Box::new(application::Wasm)];
+pub static APPLICATION: Vec<DynIFileType> = vec![Box::new(application::Wasm)];
 
 #[dynamic]
-pub static TYPES: Vec<Box<dyn IFileType + Send + Sync>> = {
-    let mut ret: Vec<Box<dyn IFileType + Send + Sync>> = vec![];
+pub static TYPES: Vec<DynIFileType> = {
+    let mut ret: Vec<DynIFileType> = vec![];
 
     #[cfg(feature = "image")]
     {

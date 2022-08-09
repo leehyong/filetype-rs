@@ -26,6 +26,7 @@ mod linit;
 // #[cfg(feature = "lazystatic")]
 pub use linit::*;
 
+pub type DynIFileType = Box<dyn IFileType + Send + Sync>;
 pub trait IFileType {
     fn mime(&self) -> &'static str;
     fn extension(&self) -> &'static str;

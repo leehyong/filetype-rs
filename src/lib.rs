@@ -1,5 +1,7 @@
+pub mod helpers;
+pub mod matcher;
 pub mod types;
-
+pub mod utils;
 mod tests {
     #[test]
     fn it_works() {
