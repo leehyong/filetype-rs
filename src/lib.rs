@@ -39,6 +39,15 @@ pub fn guess_extension<T: Signature>(obj: T) -> Option<&'static str> {
     None
 }
 
+// Returns the file type instance searching by
+//     MIME type or file extension.
+
+//     Args:
+//         ext: file extension string. E.g: jpg, png, mp4, mp3
+//         mime: MIME string. E.g: image/jpeg, video/mpeg
+
+//     Returns:
+//         The matched file type instance. Otherwise None.
 pub fn get_type(mime: Option<&str>, ext: Option<&str>) -> Option<DynIFileType> {
     for mat in TYPES.iter() {
         if let Some(mm) = mime {
@@ -56,6 +65,13 @@ pub fn get_type(mime: Option<&str>, ext: Option<&str>) -> Option<DynIFileType> {
     None
 }
 
+// Adds a new type matcher instance to the supported types.
+
+// Args:
+// instance: Type impl  IFileType.
+
+// Returns:
+// None
 pub fn add_type<T: IFileType>(obj: T) {
     //  todo
     // TYPES.
