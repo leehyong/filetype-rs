@@ -1,7 +1,3 @@
-#[cfg(feature = "lazystatic")]
-#[macro_use]
-extern crate lazy_static;
-
 #[cfg(feature = "application")]
 pub mod application;
 #[cfg(feature = "archive")]

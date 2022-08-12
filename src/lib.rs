@@ -1,3 +1,7 @@
+#[cfg(feature = "lazystatic")]
+#[macro_use]
+extern crate lazy_static;
+
 pub mod helpers;
 pub mod matcher;
 pub mod types;
@@ -22,7 +26,7 @@ pub fn guess<T: Signature>(obj: T) -> Option<&'static DynIFileType> {
 //     The matched MIME type as string. Otherwise None.
 pub fn guess_mime<T: Signature>(obj: T) -> Option<&'static str> {
     if let Some(o) = guess(obj) {
-        Some(o.mime())
+        return Some(o.mime());
     }
     None
 }
@@ -34,7 +38,7 @@ pub fn guess_mime<T: Signature>(obj: T) -> Option<&'static str> {
 //     The matched file type instance. Otherwise None.
 pub fn guess_extension<T: Signature>(obj: T) -> Option<&'static str> {
     if let Some(o) = guess(obj) {
-        Some(o.extension())
+        return Some(o.extension());
     }
     None
 }
@@ -48,7 +52,7 @@ pub fn guess_extension<T: Signature>(obj: T) -> Option<&'static str> {
 
 //     Returns:
 //         The matched file type instance. Otherwise None.
-pub fn get_type(mime: Option<&str>, ext: Option<&str>) -> Option<DynIFileType> {
+pub fn get_type(mime: Option<&str>, ext: Option<&str>) -> Option<&'static DynIFileType> {
     for mat in TYPES.iter() {
         if let Some(mm) = mime {
             if mat.is_mime(mm) {

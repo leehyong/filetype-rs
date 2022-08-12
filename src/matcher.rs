@@ -19,8 +19,8 @@ pub fn match_one<T: Signature>(
     matchers: Option<&'static Vec<DynIFileType>>,
 ) -> Option<&'static DynIFileType> {
     let buf = get_bytes(obj);
-    for mat in matchers.or(&TYPES).unwrap() {
-        if mat.is_match(buf) {
+    for mat in matchers.or(Some(&TYPES)).unwrap() {
+        if mat.is_match(&buf) {
             return Some(mat);
         }
     }
